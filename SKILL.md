@@ -1,7 +1,7 @@
 ---
 name: edge-tts
 description: Free, high-quality Text-to-Speech using Microsoft Edge's online API. Use when the user asks to speak, read aloud, generate audio, make a voice note, or say something aloud.
-homepage: https://github.com/rany2/edge-tts
+homepage: https://github.com/longlannet/edge-tts
 metadata:
   {
     "openclaw":

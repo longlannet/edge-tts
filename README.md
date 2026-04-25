@@ -2,6 +2,8 @@
 
 面向 OpenClaw 的文字转语音 skill，使用 Microsoft Edge 在线语音服务生成音频。
 
+基于 Python 包 [`edge-tts`](https://github.com/rany2/edge-tts)。
+
 ## 它能做什么
 
 - 把文字生成语音文件
