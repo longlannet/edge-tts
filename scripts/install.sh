@@ -12,6 +12,7 @@ fail() { printf '[edge-tts] ERROR: %s\n' "$*" >&2; exit 1; }
 
 log "base dir: $BASE_DIR"
 command -v python3 >/dev/null 2>&1 || fail "python3 not found"
+command -v ffmpeg >/dev/null 2>&1 || fail "ffmpeg not found; required for Telegram OGG/Opus voice-note output"
 
 if [ ! -d "$VENV_DIR" ]; then
   log "creating venv: $VENV_DIR"
@@ -30,9 +31,9 @@ log "installing requirements"
 
 if [ "$RUN_SMOKE" = "1" ]; then
   log "running smoke test"
-  "$BIN_DIR/python" "$BASE_DIR/scripts/speak.py" "测试" --output "/tmp/edge-tts-skill-smoke.mp3" >/tmp/edge-tts-skill-smoke.out
+  "$BIN_DIR/python" "$BASE_DIR/scripts/speak.py" "测试" --voice-note --output "/tmp/edge-tts-skill-smoke.ogg" >/tmp/edge-tts-skill-smoke.out
   grep -q '^MEDIA:' /tmp/edge-tts-skill-smoke.out || fail "smoke test did not return MEDIA output"
-  [ -s /tmp/edge-tts-skill-smoke.mp3 ] || fail "smoke output file missing or empty"
+  [ -s /tmp/edge-tts-skill-smoke.ogg ] || fail "smoke output file missing or empty"
   log "smoke test: OK"
 fi
 

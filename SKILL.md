@@ -10,7 +10,7 @@ metadata:
         "os": ["linux", "darwin"],
         "requires":
           {
-            "bins": ["python3"],
+            "bins": ["python3", "ffmpeg"],
             "scripts": ["scripts/install.sh", "scripts/check.sh"]
           },
         "install":
@@ -51,9 +51,19 @@ bash scripts/check.sh
 
 ## OpenClaw delivery rule
 
-`scripts/speak.py` prints a `MEDIA:/absolute/path.mp3` line. After a successful run, reply with `NO_REPLY` so OpenClaw can deliver the generated audio without duplicating it as text.
+`scripts/speak.py` prints a `MEDIA:/absolute/path` line. After a successful run, reply with `NO_REPLY` so OpenClaw can deliver the generated audio without duplicating it as text.
 
 Do not use the `message` tool to send the generated audio separately.
+
+### Telegram voice bubble rule
+
+If the current surface is Telegram and the user asks for a voice message / 语音泡泡 / voice note, default to Telegram voice mode:
+
+```bash
+{baseDir}/venv/bin/python {baseDir}/scripts/speak.py "{{text}}" --voice-note
+```
+
+This generates `.ogg` audio encoded with Opus, which is Telegram's most reliable native voice-bubble format. Use MP3 only when the user asks for a regular audio file instead of a Telegram voice bubble.
 
 ## Main command
 
@@ -65,6 +75,9 @@ Useful options:
 - `--voice`: voice id, default `zh-CN-XiaoxiaoNeural`
 - `--rate`: speech rate, e.g. `+10%` or `-10%`
 - `--volume`: volume adjustment, e.g. `+10%`
+- `--pitch`: pitch adjustment, e.g. `+5Hz`
+- `--format`: `mp3` or `ogg`; default is `mp3`
+- `--voice-note`: Telegram-style voice-bubble mode; defaults format to `ogg`
 - `--output`: explicit output file path
 - `--output-dir`: output directory when `--output` is not provided
 
@@ -86,5 +99,6 @@ List all available voices:
 
 - Requires network access to Microsoft's Edge TTS service.
 - Generated files are written to `media/` by default.
+- Telegram voice bubbles should use `--voice-note` / `.ogg` Opus output.
 - `venv/` and `media/` are runtime artifacts and should not be committed.
 - If the local environment is missing or stale, rerun `scripts/install.sh`.
