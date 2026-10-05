@@ -27,7 +27,7 @@ bash scripts/check.sh
 ## 常用命令
 
 ```bash
-./venv/bin/python scripts/speak.py "你好，我是小珍。"
+./venv/bin/python scripts/speak.py "你好，这是语音示例。"
 ./venv/bin/python scripts/speak.py "Hello from OpenClaw." --voice en-US-AriaNeural
 ./venv/bin/python scripts/speak.py "语速快一点。" --rate +10%
 ./venv/bin/python scripts/speak.py "Telegram 语音测试。" --voice-note
@@ -52,7 +52,7 @@ bash scripts/check.sh
 MEDIA:/absolute/path/to/audio.mp3
 ```
 
-在 OpenClaw 对话里，生成成功后直接回复 `NO_REPLY`，让系统自动发送音频；不要再额外调用消息工具发送同一个文件。
+生成成功只是拿到文件路径，不代表已发送。先确认文件存在，再用 OpenClaw 结构化 `message` 工具发送音频；工具确认成功后才回复 `NO_REPLY`。Telegram 语音泡泡用 `asVoice: true`，普通音频省略该字段。仅使用可信上下文中的目标和话题信息；不要混淆 `replyTo` 与 `threadId`。完整规则以 `SKILL.md` 为准。
 
 ## 说明
 
